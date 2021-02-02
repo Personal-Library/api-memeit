@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
+// IMPORTANT! Import the router that we created to handle meme paths
 import memeRoutes from './routes/memes.js';
 
 // Create express server
@@ -27,7 +28,19 @@ app.use('/memes', memeRoutes);
 
 // Just in case anyone tries visiting the homepage
 app.get('/', (req, res) => {
-  res.status(200).send('<h1>Hello from Memeit API ^.^</h1>')
+  res.status(200).send(`
+    <h1>Hello from Memeit API ^.^</h1>
+    <pre>
+            ______
+          &lt; Moo! &gt;
+            ------
+                  \\   ^__^
+                    \\ (oo)\\_______
+                      (__)\\       )\\/\\
+                          ||----w |
+                          ||     ||
+    </pre>
+  `)
 })
 
 // Setting up listening at our server port 
@@ -40,6 +53,9 @@ mongoose.connect(process.env.CONNECTION_URL, {
   .then(() => app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`)))
   .catch((error) => console.log(error));
 
+// Attach event listener for db here
 const db = mongoose.connection;
+// If listener hears an 'error', bind console and print error
 db.on('error', console.error.bind(console, 'connection error:'));
+// If listener hears 'open', print live statement
 db.once('open', () => console.log(`Database connection is live!`));
