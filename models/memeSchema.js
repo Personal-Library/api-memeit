@@ -3,12 +3,30 @@ const { Schema } = mongoose;
 
 // CREATE MONGOOSE SCHEMA
 const memeSchema = new Schema({
-  author: String,
-  title: String,
-  description: String,
-  image: String,
-  date: { type: Date, default: Date.now },
-  votes: { type: Number, default: 0 }
+	author: {
+		type: String,
+		required: true,
+	},
+	title: {
+		type: String,
+		required: true,
+	},
+	description: {
+		type: String,
+		required: true,
+	},
+	image: {
+		type: String,
+		required: true,
+	},
+	date: {
+		type: Date,
+		default: Date.now,
+	},
+	votes: {
+		type: Number,
+		default: 0,
+	},
 });
 
 // CREATE MONGOOSE MODEL FROM SCHEMA

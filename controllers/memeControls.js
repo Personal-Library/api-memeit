@@ -5,14 +5,13 @@ import mongoose from 'mongoose';
 
 // We don't want to keep all this logic within ~/routes/memes.js
 
-
 // ***** READMEMES ***** //
 // In try block, use Model.find() with no args to return all documents
 // If there are no documents an empty array is returned
 // ********************** //
 export const readMemes = async (req, res) => {
   try {
-    const memes = await MemeSchema.find();
+    const memes = await MemeSchema.find({});
     res.status(200).json(memes)
   } catch (error) {
     res.status(404).json({ msg: error.message })

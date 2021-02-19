@@ -3,19 +3,22 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import config from './config/dev.js'
 
 // IMPORTANT! Import the router that we created to handle meme paths
 import memeRoutes from './routes/memes.js';
-
 // Create express server
 const app = express();
 // Declare port for express server, either the server env or 5000
 const PORT = process.env.PORT || 5000;
+// Mongo URI
+const CONNECTION_URL = process.env.CONNECTION_URL || config.CONNECTION_URL 
+
 // dotenv config allows us to access the .env file
 dotenv.config();
 
-// Middleware included here
-
+// Middleware included here 
+// ========================
 // Parses json if Content-Type header matches
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 // Parses urlencoded bodies
@@ -45,7 +48,7 @@ app.get('/', (req, res) => {
 
 // Setting up listening at our server port 
 // after mongoose helps us connect to MongoDB
-mongoose.connect(process.env.CONNECTION_URL, { 
+mongoose.connect(CONNECTION_URL, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     useFindAndModify: false 

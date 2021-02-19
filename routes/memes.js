@@ -1,6 +1,12 @@
 import express from 'express';
 // Import controller functions
-import { createMeme, readMemes, updateMeme, deleteMeme, upvoteMeme } from '../controllers/memeControls.js';
+import {
+	createMeme,
+	readMemes,
+	updateMeme,
+	deleteMeme,
+	upvoteMeme,
+} from '../controllers/memeControls.js';
 
 // Create a router instance to define routes
 const router = express.Router();
