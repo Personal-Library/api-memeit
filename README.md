@@ -4,6 +4,8 @@
 This API stores the backend for the Memeit application, which is a fun project that allows users to post their favorite memes to a consolidated site. 
 This API is meant for learning purposes only.
 
+You can visit Memeit by clicking [here](https://concord-memeit.ecruz4.repl.co/)
+
 ## Technologies
 - Node.js
 - Express
