@@ -10,14 +10,13 @@ import mongoose from 'mongoose';
 // If there are no documents an empty array is returned
 // ********************** //
 export const readMemes = async (req, res) => {
-  try {
-    const memes = await MemeSchema.find({});
-    res.status(200).json(memes)
-  } catch (error) {
-    res.status(404).json({ msg: error.message })
-  }
-}
-
+	try {
+		const memes = await MemeSchema.find({});
+		res.status(200).json(memes);
+	} catch (error) {
+		res.status(404).json({ msg: error.message });
+	}
+};
 
 // ***** CREATEMEME ***** //
 // Extract data from req.body
@@ -25,16 +24,15 @@ export const readMemes = async (req, res) => {
 // Await .save() function mongoose with no args
 // ********************** //
 export const createMeme = async (req, res) => {
-  const memeData = req.body;
-  const newMeme = new MemeSchema(memeData); 
-  try {
-    await newMeme.save();
-    res.status(201).json(newMeme);
-  } catch (error) {
-    res.status(409).json({ msg: error.message });
-  };
+	const memeData = req.body;
+	const newMeme = new MemeSchema(memeData);
+	try {
+		await newMeme.save();
+		res.status(201).json(newMeme);
+	} catch (error) {
+		res.status(409).json({ msg: error.message });
+	}
 };
-
 
 // ***** UPDATEMEME ***** //
 // Destructure id and extract document data
@@ -43,48 +41,52 @@ export const createMeme = async (req, res) => {
 // Use spread operator to copy req.body over to argument
 // ********************** //
 export const updateMeme = async (req, res) => {
-  const { id } = req.params;
-  const meme = req.body;
+	const { id } = req.params;
+	const meme = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send('Not a valid ID.')
-  }
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).send('Not a valid ID.');
+	}
 
-  try {
-    const updatedMeme = await MemeSchema.findByIdAndUpdate(id, { ...meme }, { new: true })
-    res.json(updatedMeme)
-  } catch (error) {
-    res.status(400).json({ msg: error.message })
-  }
-}
-
+	try {
+		const updatedMeme = await MemeSchema.findByIdAndUpdate(
+			id,
+			{ ...meme },
+			{ new: true }
+		);
+		res.json(updatedMeme);
+	} catch (error) {
+		res.status(400).json({ msg: error.message });
+	}
+};
 
 // ***** DELETEMEME ***** //
 // Destructure id and extract document data
 // Use mongoose.Types.ObjectId.isValid(id) to ensure a valid MongoDB ID was passed
-// In try block, pass (err, doc) arguments to .findByIdAndRemove() to validate that the 
+// In try block, pass (err, doc) arguments to .findByIdAndRemove() to validate that the
 // document with that ID exists
 // Use spread operator to copy req.body over to argument
 // ********************** //
 export const deleteMeme = async (req, res) => {
-  const { id } = req.params;
-  
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send('Not a valid ID.')
-  }
+	const { id } = req.params;
 
-  try {
-    await MemeSchema.findByIdAndRemove(id, (err, doc) => {
-      if (err || !doc) {
-        console.log('You are trying to delete a message that has already been deleted.')
-      }
-    });
-    res.json({ msg: 'Post was deleted'})
-  } catch (error) {
-    res.status(400).json({ msg: error.message })
-  }
-}
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).send('Not a valid ID.');
+	}
 
+	try {
+		await MemeSchema.findByIdAndRemove(id, (err, doc) => {
+			if (err || !doc) {
+				console.log(
+					'You are trying to delete a message that has already been deleted.'
+				);
+			}
+		});
+		res.json({ msg: 'Post was deleted' });
+	} catch (error) {
+		res.status(400).json({ msg: error.message });
+	}
+};
 
 // ***** UPVOTEMEME ***** //
 // Destructure id and extract document data
@@ -93,17 +95,21 @@ export const deleteMeme = async (req, res) => {
 // Only provided new information as argument since we are using patch verb
 // ********************** //
 export const upvoteMeme = async (req, res) => {
-  const { id } = req.params;
+	const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.json({ msg: 'Not a valid ID' });
-  };
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.json({ msg: 'Not a valid ID' });
+	}
 
-  try {
-    const meme = await MemeSchema.findById(id);
-    const updatedMeme = await MemeSchema.findByIdAndUpdate(id, { votes: meme.votes+1 }, { new: true });
-    res.json(updatedMeme);
-  } catch (error) {
-    res.status(400).json({ msg: error.message })
-  }
-}
+	try {
+		const meme = await MemeSchema.findById(id);
+		const updatedMeme = await MemeSchema.findByIdAndUpdate(
+			id,
+			{ votes: meme.votes + 1 },
+			{ new: true }
+		);
+		res.json(updatedMeme);
+	} catch (error) {
+		res.status(400).json({ msg: error.message });
+	}
+};
